@@ -1,17 +1,19 @@
-## Security Policy: Managing Critical DNS Records
+# Cloudflare-DNSControl
+
+## Security Policy: Root Domain Record Management
 
 **Important:**
 
-- Critical DNS records (MX, TXT, and all root-level records) are not managed or altered by DNSControl in this repository.
-- The purpose of this tooling is to enable developers, operations, and platform teams to request subdomains with valid reasons and their names via Pull Requests (PRs), ensuring a documented and auditable process.
-- Any changes to root-level DNS configurations (e.g., MX, TXT, NS, or A records for the apex domain) must be performed directly in the Cloudflare panel.
-- Access to the Cloudflare panel for root-level changes is restricted and requires written approval over email. No developer, operations, or platform team member may modify root-level DNS records without explicit authorization.
+- Only CAA records are managed as code at the root domain (apex) via DNSControl. All other root-level records (A, AAAA, MX, NS, TXT, etc.) are ignored and must be managed directly in the Cloudflare panel.
+- The only CAA records currently allowed are for certificate authorities: letsencrypt.org, amazon.com, amazontrust.com, awstrust.com, and amazonaws.com.
+- Subdomain requests and changes are managed via DNSControl and Pull Requests (PRs) for auditability and process control.
+- Any changes to other root-level DNS configurations require Cloudflare panel access and written approval. No developer, operations, or platform team member may modify root-level DNS records without explicit authorization.
 
 **Summary:**
 
-- Subdomain requests and changes are managed via DNSControl and PRs.
-- Root-level DNS changes require Cloudflare panel access and written approval.
-- This policy protects the integrity and security of the domain's core DNS setup.
+- Only CAA records for approved certificate authorities are managed as code at the root domain.
+- All other root-level DNS records are ignored by DNSControl and require manual management in Cloudflare.
+- Subdomain management is handled via PRs and DNSControl.
 
 ## Ignored DNS Records in DNSControl
 
@@ -19,12 +21,14 @@
 |-------------------------------|-----------|-----------------------------------------------------|----------------------------------------------------|
 | `*`                           | A         | Ignore all wildcard A records                        | Wildcard A records can expose all subdomains to unintended IPs, risking takeover or misrouting. |
 | `*._domainkey`                | TXT       | Ignore all DKIM TXT records for subdomains           | DKIM records are managed by mail providers; accidental changes can break email authentication. |
-| `@`                           | *         | Ignore all records at the root domain                | Root domain records are critical; accidental changes can break main website, mail, or cause outages. |
+| `@`                           | * (except CAA) | Ignore all records at the root domain except CAA     | Only CAA records for approved CAs are managed as code. All other root records are critical and must be managed manually. |
 | `_acme-challenge`             | TXT       | Ignore ACME challenge TXT records (SSL certs)        | SSL certificate issuance can fail or be hijacked if these are modified. |
 | `_discord`                    | TXT       | Ignore Discord verification TXT records              | Discord integrations may break or be hijacked.      |
 | `_dmarc`                      | TXT       | Ignore DMARC TXT records                             | DMARC policy changes can impact email deliverability and security. |
 | `_psl`                        | TXT       | Ignore Public Suffix List TXT records                | Public Suffix List changes can impact domain security and browser behavior. |
 | `ns[1-4]`                     | A,AAAA    | Ignore name server A/AAAA records                    | Name server records are critical; accidental changes can break DNS resolution for the entire domain. |
+
+> The following steps are informational and describe the underlying tools used in the repo. All team members the Dev, Ops, Platform, and AI teams should fork the repository or create a branch (e.g., `dns/<team-name>-subdomain-name`), add your `subdomain.json` file to the `domains` folder, and submit a pull request with the required details. No additional steps are necessary.
 
 ## DNSControl Quick Install
 

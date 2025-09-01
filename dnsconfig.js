@@ -157,15 +157,45 @@ records.push(TXT("_zone-updated", "\"" + Date.now().toString() + "\""));
 
 // Ignore auto-generated / managed records
 var ignored = [
-    IGNORE("\\*", "A"),
-    IGNORE("*._domainkey", "TXT"),
-    IGNORE("@", "*"),
-    IGNORE("_acme-challenge", "TXT"),
-    IGNORE("_discord", "TXT"),
-    IGNORE("_dmarc", "TXT"),
-    IGNORE("_psl", "TXT"),
-    IGNORE("ns[1-4]", "A,AAAA"),
-    IGNORE("go", "CNAME")
+    // ==============================
+    // ROOT DOMAIN (@) RECORDS
+    // ==============================
+    // Ignore standard record types at apex; only CAA will be managed explicitly
+    IGNORE("@", "A"),       // Root A record auto-managed or existing elsewhere
+    IGNORE("@", "AAAA"),    // Root AAAA record auto-managed or existing elsewhere
+    IGNORE("@", "CERT"),    // Certificate-related records, not managed manually
+    IGNORE("@", "CNAME"),   // Avoid conflicts with apex CNAME restrictions
+    IGNORE("@", "DNSKEY"),  // DNSSEC key records auto-generated
+    IGNORE("@", "DS"),      // Delegation signer for DNSSEC
+    IGNORE("@", "HTTPS"),   // Service binding for HTTPS (auto-managed)
+    IGNORE("@", "LOC"),     // Geolocation records, rarely managed
+    IGNORE("@", "MX"),      // Mail exchange records; keep existing, not altered
+    IGNORE("@", "NAPTR"),   // Naming authority pointer; usually auto
+    IGNORE("@", "NS"),      // Nameservers; managed by registrar/Cloudflare
+    IGNORE("@", "PTR"),     // Reverse DNS; not relevant for root
+    IGNORE("@", "SMIMEA"),  // Email certificate records, auto
+    IGNORE("@", "SRV"),     // Service records, often auto or managed elsewhere
+    IGNORE("@", "SSHFP"),   // SSH fingerprints, auto-generated
+    IGNORE("@", "SVCB"),    // Service binding for future protocols
+    IGNORE("@", "TLSA"),    // DANE TLS certs, auto
+    IGNORE("@", "TXT"),     // Other TXT records like SPF, DKIM may exist
+    IGNORE("@", "URI"),     // URI association records, rare
+
+    // ==============================
+    // WILDCARD / SPECIAL RECORDS
+    // ==============================
+    IGNORE("\\*", "A"),            // Wildcard A records; usually auto-managed
+    IGNORE("*._domainkey", "TXT"), // DKIM keys for email; auto-generated
+    IGNORE("_acme-challenge", "TXT"), // ACME challenge records for Let's Encrypt; auto
+    IGNORE("_discord", "TXT"),     // Specific service TXT records (Discord)  
+    IGNORE("_dmarc", "TXT"),       // DMARC policy; auto-managed
+    IGNORE("_psl", "TXT"),         // Public suffix list validation TXT records
+
+    // ==============================
+    // NAMESERVERS / SUBDOMAINS
+    // ==============================
+    IGNORE("ns[1-4]", "A,AAAA"),   // Legacy or sub-NS glue records; auto
+    IGNORE("go", "CNAME")          // Subdomain `go` CNAME for R2 Bucket as Cloudflare auto-manages it
 ];
 
 // Add internal ignore list

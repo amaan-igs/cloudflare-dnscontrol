@@ -1,4 +1,10 @@
+# Owner: Amaan Ul Haq Siddiqui (@amaan-igs)
+
+# Default owner for all files
 * @amaan-igs
 
-/domains/ @amaan-igs/maintainers
-*.md @amaan-igs/maintainers
+# Owner for all Markdown files
+*.md @amaan-igs
+
+# Owner for all domain JSON files in /domains/
+/domains/*.json @amaan-igs
