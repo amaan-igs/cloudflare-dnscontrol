@@ -1,0 +1,11 @@
+{
+  "owner": {
+    "username": "amaan-igs",
+    "email": "amaanulhaq.s@outlook.com"
+  },
+  "records": {
+    "TXT": "google-site-verification=aXFvR-FIaRAyOQDhDkfHac3qIX56pg9TwSaJpnq-S3A",
+    "CNAME": "e15001952d5ab729.vercel-dns-017.com"
+  },
+  "proxied": true
+}
