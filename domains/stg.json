@@ -1,0 +1,15 @@
+{
+	"owner": {
+		"username": "amaan-igs",
+		"email": "amaanulhaq.s@outlook.com"
+	},
+	"records": {
+		"NS": [
+			"ns-1051.awsdns-03.org",
+			"ns-493.awsdns-61.com",
+			"ns-851.awsdns-42.net",
+			"ns-1842.awsdns-38.co.uk"
+		]
+	},
+	"proxied": false
+}
