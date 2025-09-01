@@ -1,0 +1,15 @@
+{
+  "owner": {
+    "username": "amaan-igs",
+    "email": "amaanulhaq.s@outlook.com"
+  },
+  "records": {
+    "CAA": [
+      { "flags": 0, "tag": "issue", "value": "letsencrypt.org" },
+      { "flags": 0, "tag": "issue", "value": "amazon.com" },
+      { "flags": 0, "tag": "issue", "value": "amazontrust.com" },
+      { "flags": 0, "tag": "issue", "value": "awstrust.com" },
+      { "flags": 0, "tag": "issue", "value": "amazonaws.com" }
+    ]
+  }
+}
