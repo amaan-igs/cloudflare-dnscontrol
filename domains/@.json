@@ -5,7 +5,6 @@
   },
   "records": {
     "CAA": [
-      { "flags": 0, "tag": "issue", "value": "letsencrypt.org" },
       { "flags": 0, "tag": "issue", "value": "amazon.com" },
       { "flags": 0, "tag": "issue", "value": "amazontrust.com" },
       { "flags": 0, "tag": "issue", "value": "awstrust.com" },
