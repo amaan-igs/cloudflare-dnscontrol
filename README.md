@@ -1,5 +1,7 @@
 # Cloudflare-DNSControl
 
+[![CF-DNSControl Pipeline](https://github.com/amaan-igs/cloudflare-dnscontrol/actions/workflows/publish-records.yml/badge.svg)](https://github.com/amaan-igs/cloudflare-dnscontrol/actions/workflows/publish-records.yml)
+
 ## Security Policy: Root Domain Record Management
 
 **Important:**
