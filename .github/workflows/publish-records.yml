@@ -7,7 +7,7 @@ on:
       - 'ci/*'
     paths:
       - "domains/*"
-      - ".github/workflows/publish.yml"
+      - ".github/workflows/publish-records.yml"
       - "util/reserved.json"
       - "dnsconfig.js"
   pull_request:
