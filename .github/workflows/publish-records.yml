@@ -1,11 +1,17 @@
-
 name: CF-DNSControl Pipeline
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "domains/*"
+      - ".github/workflows/publish-records.yml"
+      - "util/reserved.json"
+      - "dnsconfig.js"
   pull_request:
     branches:
       - main
-      - 'ci/*'
     paths:
       - "domains/*"
       - ".github/workflows/publish-records.yml"
@@ -16,6 +22,7 @@ on:
 jobs:
   preview:
     name: Preview DNS changes
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
