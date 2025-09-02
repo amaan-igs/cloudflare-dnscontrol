@@ -1,0 +1,31 @@
+name: Publish
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "domains/*"
+            - ".github/workflows/publish.yml"
+            - "util/reserved.json"
+            - "dnsconfig.js"
+
+    workflow_dispatch:
+
+concurrency:
+    group: ${{ github.ref }}-publish
+
+jobs:
+    dns:
+        name: DNS
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Push DNS records
+              uses: koenrh/dnscontrol-action@v3
+              env:
+                  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+              with:
+                  args: push
+                  config_file: dnsconfig.js
+                  creds_file: creds.json
