@@ -11,6 +11,10 @@ on:
       - "dnsconfig.js"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   preview:
     name: Preview DNS changes
