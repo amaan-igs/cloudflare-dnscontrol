@@ -149,8 +149,24 @@ for (var subdomain in domains) {
 
 }
 
-// Reserved subdomains
-// Reserved subdomains are ignored and not created
+// ==============================
+// RESERVED SUBDOMAINS HANDLING
+// ==============================
+// Reserved subdomains are protected by creating placeholder A records
+// pointing to a reserved IP address (203.0.113.0) with Cloudflare proxy enabled.
+// This prevents these subdomains from being registered by users while
+// maintaining their reserved status in the DNS zone.
+
+var reserved = require("./utils/reserved.json");
+// Create placeholder A records for all reserved subdomains
+// Each reserved subdomain gets an A record to 203.0.113.0 (TEST-NET-3)
+// https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xhtml  
+// [13]	203.0.113.0/24 reserved for TEST-NET-3 [RFC5737]
+// https://www.rfc-editor.org/rfc/rfc5737.html [RFC5737]
+for (var i = 0; i < reserved.length; i++) {
+    var subdomainName = reserved[i];
+    records.push(A(subdomainName, IP("203.0.113.0"), CF_PROXY_ON));
+}
 
 // Zone last updated marker
 records.push(TXT("_zone-updated", "\"" + Date.now().toString() + "\""));
