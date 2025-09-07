@@ -157,7 +157,7 @@ for (var subdomain in domains) {
 // This prevents these subdomains from being registered by users while
 // maintaining their reserved status in the DNS zone.
 
-var reserved = require("./util/reserved.json");
+var reserved = require("./utils/reserved.json");
 // Create placeholder A records for all reserved subdomains
 // Each reserved subdomain gets an A record to 203.0.113.0 (TEST-NET-3)
 // https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xhtml  
